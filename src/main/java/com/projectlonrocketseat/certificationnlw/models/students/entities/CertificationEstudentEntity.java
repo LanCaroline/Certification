@@ -10,13 +10,12 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudentEntity {
-
-    private UUID id; //0186392b-03ca-4075-8674-3974f156f48b
-
-    private String email;
-
-    private List<CertificationEstudentEntity> certificationEstudentsEntities;
+public class CertificationEstudentEntity {
+    private UUID id;
+    private UUID student_id;
+    private String technology;
+    private int grate;
+    List<AnswersCertificationEntity> answersCertificationEntities;
 
 
 }
