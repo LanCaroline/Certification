@@ -1,5 +1,6 @@
 package com.projectlonrocketseat.certificationnlw.models.students.entities;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,11 +11,20 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity(name = "certification")
 public class CertificationEstudentEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private UUID student_id;
+    @Column(length = 100)
     private String technology;
-    private int grate;
+    @Column(length = 100)
+    private int grade;
+
+    @JoinColumn(name= "student_id")
+    private UUID studentID;
+
     List<AnswersCertificationEntity> answersCertificationEntities;
 
 
