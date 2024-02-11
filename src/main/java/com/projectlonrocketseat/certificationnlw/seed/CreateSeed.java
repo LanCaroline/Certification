@@ -37,7 +37,6 @@ public class CreateSeed {
     }
 
     private void executeSqlFile(String filePath){
-        System.out.println("PASSOU AQUI!! OLÁAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
         try {
             String sqlScript = new String(Files.readAllBytes(Paths.get(filePath)));
