@@ -1,5 +1,6 @@
 package com.projectlonrocketseat.certificationnlw.models.students.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,6 +31,7 @@ public class StudentEntity {
     // ManyToMany
 
     @OneToMany(mappedBy = "studentEntity")
+    @JsonBackReference
     private List<CertificationEstudentEntity> certificationEstudentsEntity;
 
     @CreationTimestamp

@@ -1,5 +1,6 @@
 package com.projectlonrocketseat.certificationnlw.models.students.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.persistence.metamodel.Type;
@@ -28,7 +29,7 @@ public class CertificationEstudentEntity {
     @Column(length = 100)
     private int grade;
 
-    @JoinColumn(name= "student_id")
+    @Column(name= "student_id")
     private UUID studentID;
 
     @ManyToOne
@@ -37,7 +38,7 @@ public class CertificationEstudentEntity {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "answer_certification_id", insertable = false, updatable = false)
-    @JsonManagedReference
+    @JsonBackReference
     List<AnswersCertificationEntity> answersCertificationEntities;
 
     @CreationTimestamp

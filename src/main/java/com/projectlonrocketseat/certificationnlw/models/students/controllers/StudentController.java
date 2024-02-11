@@ -7,7 +7,9 @@ import com.projectlonrocketseat.certificationnlw.models.students.repositories.St
 import com.projectlonrocketseat.certificationnlw.models.students.usecase.StudentCertificationAnswersUseCase;
 import com.projectlonrocketseat.certificationnlw.models.students.usecase.VerifyIfHasCertificationUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 @RestController
 @RequestMapping("/student")
@@ -34,8 +36,13 @@ public class StudentController {
     }
 
     @RequestMapping("/certification/answer")
-    public CertificationEstudentEntity certificationAnswer(@RequestBody StudentCertificationAnswerDTO studentCertificationAnswerDTO) {
-        return this.studentCertificationAnswersUseCase.execute(studentCertificationAnswerDTO);
+    public ResponseEntity<Object> certificationAnswer(@RequestBody StudentCertificationAnswerDTO studentCertificationAnswerDTO){
+        try{
+            var result = this.studentCertificationAnswersUseCase.execute(studentCertificationAnswerDTO);
+            return ResponseEntity.ok().body(result);
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
 
     }
 

@@ -2,6 +2,7 @@ package com.projectlonrocketseat.certificationnlw.models.students.usecase;
 
 import com.projectlonrocketseat.certificationnlw.models.questions.entities.QuestionEntity;
 import com.projectlonrocketseat.certificationnlw.models.questions.repositories.QuestionRespository;
+import com.projectlonrocketseat.certificationnlw.models.students.dto.CertificationVerifyDTO;
 import com.projectlonrocketseat.certificationnlw.models.students.dto.StudentCertificationAnswerDTO;
 import com.projectlonrocketseat.certificationnlw.models.students.entities.AnswersCertificationEntity;
 import com.projectlonrocketseat.certificationnlw.models.students.entities.CertificationEstudentEntity;
@@ -28,7 +29,17 @@ public class StudentCertificationAnswersUseCase {
     @Autowired
     private CertificationEstudentRespositories certificationEstudentRespositories;
 
-    public CertificationEstudentEntity execute(StudentCertificationAnswerDTO dto) {
+    @Autowired
+    private VerifyIfHasCertificationUseCase verifyIfHasCertificationUseCase;
+
+
+    public CertificationEstudentEntity execute(StudentCertificationAnswerDTO dto) throws Exception{
+
+        var hasCertification = this.verifyIfHasCertificationUseCase.execute(new CertificationVerifyDTO(dto.getEmail(), dto.getTechnology()));
+
+        if(hasCertification){
+            throw new Exception("Certificação já emitida.");
+        }
 
         // Get alternatives from questions
         // - If is correct or incorrect
