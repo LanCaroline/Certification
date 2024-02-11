@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class StudentCertificationAnswersUseCase {
@@ -34,6 +35,8 @@ public class StudentCertificationAnswersUseCase {
         List<QuestionEntity> questionsEntity = questionRespository.findByTechnology(dto.getTechnology());
         List<AnswersCertificationEntity> answersCertification = new ArrayList<>();
 
+        AtomicInteger correctAnswers = new AtomicInteger(0);
+
         dto.getQuestionsAnswers()
                 .stream().forEach(questionAnswer -> {
             var question = questionsEntity.stream()
@@ -44,6 +47,7 @@ public class StudentCertificationAnswersUseCase {
 
             if(findCorrectAlternative.getId().equals(questionAnswer.getAlternativeID()) ){
                 questionAnswer.setCorrect(true);
+                correctAnswers.incrementAndGet();
             }else{
                 questionAnswer.setCorrect(false);
             }
@@ -71,10 +75,18 @@ public class StudentCertificationAnswersUseCase {
         CertificationEstudentEntity certificationEstudentEntity = CertificationEstudentEntity.builder()
                 .technology(dto.getTechnology())
                 .studentID(studentID)
-                .answersCertificationEntities(answersCertification)
+                .grade(correctAnswers.get())
                 .build();
 
         var certificationStudentCreated = certificationEstudentRespositories.save(certificationEstudentEntity);
+
+        answersCertification.stream().forEach(answerCertificaty -> {
+            answerCertificaty.setCertificationID(certificationEstudentEntity.getId());
+            answerCertificaty.setCertificationEstudentEntity(certificationEstudentEntity);
+        });
+
+        certificationEstudentEntity.setAnswersCertificationEntities(answersCertification);
+        certificationEstudentRespositories.save(certificationEstudentEntity);
 
 
         return certificationStudentCreated;

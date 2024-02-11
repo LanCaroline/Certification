@@ -1,5 +1,6 @@
 package com.projectlonrocketseat.certificationnlw.models.students.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.persistence.metamodel.Type;
 import lombok.AllArgsConstructor;
@@ -36,6 +37,7 @@ public class CertificationEstudentEntity {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "answer_certification_id", insertable = false, updatable = false)
+    @JsonManagedReference
     List<AnswersCertificationEntity> answersCertificationEntities;
 
     @CreationTimestamp

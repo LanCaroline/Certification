@@ -1,5 +1,6 @@
 package com.projectlonrocketseat.certificationnlw.models.students.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,6 +27,7 @@ public class AnswersCertificationEntity {
 
     @ManyToOne
     @JoinColumn(name = "certification_id", insertable = false, updatable = false)
+    @JsonBackReference
     private CertificationEstudentEntity certificationEstudentEntity;
 
     @Column(name = "student_id")
